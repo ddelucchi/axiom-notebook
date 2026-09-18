@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use or discuss this software in research, please cite this repository."
+title: "Axiom Notebook"
+type: software
+authors:
+  - family-names: "Delucchi"
+    given-names: "Daxx"
+abstract: "Math-native derivation workspace combining a Next.js notebook with a FastAPI and SymPy symbolic service"
+version: 0.1.0
+date-released: 2026-09-17
+keywords:
+  - "symbolic-computation"
+  - "mathematics"
+  - "notebook"
+  - "sympy"
+  - "typescript"
