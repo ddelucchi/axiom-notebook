@@ -1,28 +1,38 @@
-# Curation audit
+# Release audit
 
-Source: C:\Users\deluc\Documents\Scout.
+Audit date: 2026-09-17
 
 ## Included
 
-- Root pnpm workspace manifests, lockfile, TypeScript configuration, and prompt/design brief.
-- apps/math-service: FastAPI/SymPy service, schemas, parsing, structural diff, visualization adapters, routes, and endpoint tests.
-- apps/web: Next.js/React/TypeScript/MathLive notebook UI, math blocks, derivation state, drawing canvas, layout, and client validation.
-- packages/shared: shared TypeScript domain types and Zod schemas.
-- infra/sql/0001_init.sql.
-- The original README is retained as LOCAL_README.md.
+- root pnpm workspace manifests, lockfile, TypeScript configuration, and architecture brief
+- `apps/math-service`: FastAPI/SymPy service, schemas, parsing, structural diff, visualization adapters, routes, and endpoint tests
+- `apps/web`: Next.js/React/TypeScript/MathLive notebook UI, derivation state, drawing, block editing, and client validation
+- `packages/shared`: shared TypeScript domain types and Zod schemas
+- `infra/sql/0001_init.sql`
+- the original project README retained as `LOCAL_README.md` for provenance
 
-## Validation
+## Observed validation
 
-- Math-service pytest suite passed 5/5 when run from apps/math-service.
-- Python service compilation passed.
-- @axiom/shared typecheck passed.
-- @axiom/web production build passed with Next.js.
+- math-service pytest suite: 5/5 passing
+- Python service compilation: passing
+- `@axiom/shared` typecheck: passing
+- `@axiom/web` production build: passing
+
+These checks establish software behavior for the exercised paths. They do not establish formal correctness of arbitrary mathematics entered into the notebook.
 
 ## Deliberate exclusions
 
-- node_modules/, .next/, .pytest_cache/, __pycache__/, build metadata, coverage, caches, and generated output.
-- docker-compose.yml and .env.example, which contain local development database credentials/configuration.
-- Local database data directory.
-- No personal credentials or private keys were included.
+- `node_modules/`, `.next/`, Python caches, coverage, and build metadata
+- local database state
+- local environment files and development credentials
+- generated output
 
-This is a private, source-first monorepo archive preserving the working math-native notebook implementation without publishing dependencies, build products, or local database configuration.
+No personal credentials or private keys are part of the curated repository surface.
+
+## Known boundaries
+
+- SymPy's LaTeX parser is an external parser with its own accepted grammar and limitations.
+- the server-side serializer is MathJSON-like, not a complete MathJSON implementation.
+- operation classification is heuristic.
+- visualization routing currently favors graph and structural fallback modes.
+- the database schema is present, but this release should be judged primarily on the notebook and math-service implementation rather than deployment hardening.
