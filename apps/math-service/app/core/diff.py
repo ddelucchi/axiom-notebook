@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import sympy as sp
 
+from .safe_sympy import safe_from_srepr
+
 from ..schemas import (
     ChangeSet,
     OperationCandidate,
