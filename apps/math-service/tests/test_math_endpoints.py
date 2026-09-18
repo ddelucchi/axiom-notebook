@@ -175,3 +175,85 @@ def test_visualization_response_collections_are_not_shared():
     second = client.post("/math/visualize", json=payload).json()["state"]
     first["annotations"].append({"kind": "client-only", "payload": {}})
     assert second["annotations"] == []
+
+
+def test_diff_rejects_hostile_srepr_without_execution(tmp_path):
+    marker = tmp_path / "pwned"
+    hostile = (
+        "__import__('pathlib').Path("
+        + repr(str(marker))
+        + ").write_text('owned')"
+    )
+    canonical = {
+        "srepr": hostile,
+        "head": "Symbol",
+        "freeSymbols": [],
+        "isRelational": False,
+        "graphable": False,
+    }
+    r = client.post(
+        "/math/diff",
+        json={"prevCanonical": canonical, "nextCanonical": canonical},
+    )
+    assert r.status_code == 200
+    assert not marker.exists()
+    body = r.json()
+    assert body["operationCandidates"][0]["kind"] == "unknown"
+
+
+def test_visualize_rejects_hostile_srepr_without_execution(tmp_path):
+    marker = tmp_path / "pwned_visualize"
+    hostile = (
+        "__import__('pathlib').Path("
+        + repr(str(marker))
+        + ").write_text('owned')"
+    )
+    canonical = {
+        "srepr": hostile,
+        "head": "Symbol",
+        "freeSymbols": [],
+        "isRelational": False,
+        "graphable": True,
+    }
+    r = client.post(
+        "/math/visualize",
+        json={"canonical": canonical, "domainTag": "algebra"},
+    )
+    assert r.status_code == 200
+    assert not marker.exists()
+    state = r.json()["state"]
+    assert state["adapterType"] == "structure"
+    assert state["fallbackMode"] is True
+
+
+def test_safe_srepr_accepts_undefined_symbolic_function():
+    canonical = {
+        "srepr": "Function('f')(Symbol('x'))",
+        "head": "f",
+        "freeSymbols": ["x"],
+        "isRelational": False,
+        "graphable": True,
+    }
+    r = client.post(
+        "/math/visualize",
+        json={"canonical": canonical, "domainTag": "algebra"},
+    )
+    assert r.status_code == 200
+    state = r.json()["state"]
+    assert state["adapterType"] == "graph"
+
+
+def test_safe_srepr_rejects_attribute_access():
+    canonical = {
+        "srepr": "Symbol.__subclasses__()",
+        "head": "Symbol",
+        "freeSymbols": [],
+        "isRelational": False,
+        "graphable": False,
+    }
+    r = client.post(
+        "/math/diff",
+        json={"prevCanonical": canonical, "nextCanonical": canonical},
+    )
+    assert r.status_code == 200
+    assert r.json()["operationCandidates"][0]["kind"] == "unknown"
