@@ -36,3 +36,15 @@ No personal credentials or private keys are part of the curated repository surfa
 - operation classification is heuristic.
 - visualization routing currently favors graph and structural fallback modes.
 - the database schema is present, but this release should be judged primarily on the notebook and math-service implementation rather than deployment hardening.
+
+
+## Post-curation hardening
+
+After the initial validation snapshot above, the public source received additional changes that are intentionally **not** back-labelled as part of the original 5/5 run:
+
+- endpoint coverage was expanded around parse failure, assumptions, diff ambiguity, visualization fallback, and response isolation;
+- client-supplied canonical `srepr` reconstruction was moved from string sympification to a bounded AST whitelist;
+- hostile import/attribute/call payloads are retained as regression cases and are expected to fail closed;
+- list-valued response defaults use explicit factories.
+
+The historical validation numbers above remain historical facts. Re-run the current suite from a clean checkout to establish the state of the current commit.
