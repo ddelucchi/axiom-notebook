@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import sympy as sp
 
+from .safe_sympy import safe_from_srepr
+
 from ..schemas import (
     DomainTag,
     ServerCanonicalForm,
@@ -47,7 +49,7 @@ def visualize(
 
 
 def _graph_payload(canonical: ServerCanonicalForm, hint: VisualizationHint | None) -> dict[str, object]:
-    expr = sp.sympify(canonical.srepr, locals=sp.__dict__)  # type: ignore[arg-type]
+    expr = safe_from_srepr(canonical.srepr)
     # Desmos accepts LaTeX expressions directly via expressions[].latex.
     latex = sp.latex(expr)
     variables = canonical.freeSymbols
