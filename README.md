@@ -4,7 +4,7 @@ Axiom Notebook is a math-native derivation workspace that keeps editable notatio
 
 ## Status
 
-The current repository is a working research prototype with a verified web build and a tested symbolic-math service.
+The current repository is a working research prototype with a previously verified production web build and an actively hardened symbolic-math service.
 
 Implemented today:
 
@@ -37,15 +37,11 @@ The client may carry MathLive/Compute Engine structures. The server uses SymPy's
 
 ## Verification
 
-The curated release has been exercised with:
+The initial curated release was exercised with Python compilation, a passing 5-test math-service suite, shared-package type checking, and a successful Next.js production build.
 
-- 5/5 math-service endpoint tests passing
-- Python service compilation
-- shared-package TypeScript type checking
-- web-app TypeScript type checking
-- a successful Next.js production build
+The current source has since expanded that endpoint suite and hardened the client-canonicalization boundary. In particular, client-supplied SymPy `srepr` is no longer reconstructed with string sympification: a bounded AST whitelist accepts only approved symbolic constructors and fails closed on unsupported syntax. Adversarial endpoint cases are retained in the test suite.
 
-Hosted CI mirrors these clone-local checks. GitHub Actions execution may still depend on account/repository runner availability, so the commands below remain the authoritative reproducible path.
+GitHub Actions is configured to mirror the clone-local checks, but the account currently reports workflow startup failures before job creation. Until runner execution is restored, the commands below are the reproducible verification path; the README does not claim the post-hardening suite is hosted-CI green.
 
 ## Quick start
 
@@ -100,6 +96,7 @@ Axiom distinguishes representation from proof.
 
 - LaTeX parsing can fail or be ambiguous.
 - SymPy equivalence checks inherit SymPy's semantics and assumptions.
+- canonical expression text received from clients is parsed through an explicit AST whitelist; unsupported syntax falls back instead of being evaluated.
 - operation labels are heuristic candidates with confidences, not certified derivation rules.
 - graphability is a routing heuristic.
 - structural equality is not mathematical proof of an informal argument.
