@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://rsms.me/inter/inter.css");
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 font-serif antialiased;
+}
+
+/* MathLive */
+math-field {
+  font-size: 1.125rem;
+  border: 1px solid theme("colors.ink.200");
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: white;
+  width: 100%;
+  display: block;
+}
+math-field:focus-within {
+  border-color: theme("colors.accent.DEFAULT");
+  outline: none;
+  box-shadow: 0 0 0 3px theme("colors.accent.subtle");
+}
+
+/* contenteditable placeholder support */
+.block-text {
+  position: relative;
+}
+.block-text[data-empty="true"]::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: theme("colors.ink.400");
+  pointer-events: none;
+}
+
+/* Selection feels intentional */
+::selection {
+  background: theme("colors.accent.subtle");
+  color: theme("colors.ink.900");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+

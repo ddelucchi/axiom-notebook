@@ -1,0 +1,27 @@
+{
+  "name": "axiom-notebook",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Axiom Notebook — a math-native interactive notebook for derivations.",
+  "packageManager": "pnpm@9.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "pnpm --filter @axiom/web dev",
+    "start:web": "pnpm --filter @axiom/web start",
+    "dev:math": "pnpm --filter @axiom/math-service dev",
+    "start:math": "pnpm --filter @axiom/math-service start",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "db:up": "docker compose up -d postgres",
+    "db:migrate": "psql $DATABASE_URL -f infra/sql/0001_init.sql"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.7.5"
+  }
+}
+

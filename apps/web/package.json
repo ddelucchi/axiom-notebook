@@ -1,0 +1,37 @@
+{
+  "name": "@axiom/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3000",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 3000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@axiom/shared": "workspace:*",
+    "clsx": "^2.1.1",
+    "idb-keyval": "^6.2.1",
+    "mathlive": "^0.101.0",
+    "nanoid": "^5.0.7",
+    "next": "^15.0.3",
+    "perfect-freehand": "^1.2.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.13.0",
+    "eslint-config-next": "^15.0.3",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  }
+}
+
